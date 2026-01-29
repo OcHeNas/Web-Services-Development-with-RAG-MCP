@@ -21,7 +21,7 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 if not TELEGRAM_TOKEN:
     raise ValueError("Ошибка: TELEGRAM_TOKEN не установлен в .env")
 
-LM_STUDIO_CHAT_URL = "http://127.0.0.1:1234/api/v1/chat"
+LM_STUDIO_CHAT_URL = "http://127.0.0.1:1234/v1/chat/completions"
 MODEL_NAME = "mistralai/mistral-7b-instruct-v0.3"
 
 logging.basicConfig(
@@ -60,8 +60,7 @@ documents = load_documents()
 
 def build_context(docs):
     return "\n\n".join(
-        f"=== Документ: {doc['filename']} ===\n{doc['content']}"
-        for doc in docs
+        f"=== Документ: {doc['filename']} ===\n{doc['content']}" for doc in docs
     )
 
 
@@ -84,6 +83,7 @@ print(f"Системный промпт создан ({len(SYSTEM_PROMPT)} си�
 
 # ================== ЗАПРОС К LM STUDIO (/api/v1/chat) ==================
 
+
 def ask_question(question: str) -> str:
     """
     Отправка запроса к LM Studio natively через /api/v1/chat
@@ -104,10 +104,7 @@ def ask_question(question: str) -> str:
         data = response.json()
 
         # LM Studio chat API возвращает ответ в ['response']
-        if "response" in data:
-            return data["response"]
-        else:
-            return "⚠ Не удалось получить ответ от модели."
+        return data["choices"][0]["message"]["content"]
 
     except Exception as e:
         logger.exception("Ошибка при обращении к LM Studio")
@@ -115,6 +112,7 @@ def ask_question(question: str) -> str:
 
 
 # ================== TELEGRAM HANDLERS ==================
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -165,6 +163,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ================== ЗАПУСК БОТА ==================
+
 
 def run_bot():
     application = Application.builder().token(TELEGRAM_TOKEN).build()

@@ -20,3 +20,38 @@ Telegram-бот с поддержкой RAG (Retrieval-Augmented Generation), и
 
 Отправьте вопрос по содержимому документов → бот вернёт ответ на основе контекста.
 
+## Установка и настройка 
+
+### Создание и активация виртуального окружения
+
+![alt text](image.png)
+
+### Установка зависимостей 
+
+![alt text](image-1.png)
+
+#### Telegram Bot Token
+
+1. Найти @BotFather в Telegram
+2. Выполнить команду `/newbot`
+3. Следовать инструкциям
+4. Скопировать полученный токен
+
+### Создать файл .env и заполнить конфигурацию:
+
+```env
+TELEGRAM_BOT_TOKEN=ваш_токен_от_BotFather
+LM_STUDIO_URL=http://localhost:1234/v1
+```
+### Установить и настроить локальный сервер LM Studio
+
+![alt text](image-2.png)
+
+### Запуск бота
+
+![alt text](image-3.png)
+
+## Демонстрация работы
+
+![alt text](image-4.png)
+![alt text](image-5.png)
